@@ -110,17 +110,21 @@ function FormComponent() {
               id: "basic-bar"
             },
             xaxis: {
-              categories: tableData.length >= 5 && tableData
-                ? tableData.sort((a, b) => b.summary.totalSentAmount - a.summary.totalSentAmount).slice(0, 5).map(function (item) { return item["summary"]["address"]; })
-                : tableData.sort((a, b) => b.summary.totalSentAmount - a.summary.totalSentAmount).slice(0, tableData.length).map(function (item) { return item["summary"]["address"]; })
+              categories: tableData ?
+                (tableData.length >= 5
+                  ? tableData.sort((a, b) => b.summary.totalSentAmount - a.summary.totalSentAmount).slice(0, 5).map(function (item) { return item["summary"]["address"]; })
+                  : tableData.sort((a, b) => b.summary.totalSentAmount - a.summary.totalSentAmount).slice(0, tableData.length).map(function (item) { return item["summary"]["address"]; }))
+                : []
             }
           }}
           series={[
             {
               name: "series-1",
-              data: tableData.length >= 5 && tableData
-                ? tableData.sort((a, b) => b.summary.totalSentAmount - a.summary.totalSentAmount).slice(0, 5).map(function (item) { return item["summary"]["totalSentAmount"]; })
-                : tableData.sort((a, b) => b.summary.totalSentAmount - a.summary.totalSentAmount).slice(0, tableData.length).map(function (item) { return item["summary"]["totalSentAmount"]; })
+              data: tableData ?
+                (tableData.length >= 5
+                  ? tableData.sort((a, b) => b.summary.totalSentAmount - a.summary.totalSentAmount).slice(0, 5).map(function (item) { return item["summary"]["totalSentAmount"]; })
+                  : tableData.sort((a, b) => b.summary.totalSentAmount - a.summary.totalSentAmount).slice(0, tableData.length).map(function (item) { return item["summary"]["totalSentAmount"]; }))
+                : []
             }
           ]}
           type="bar"
