@@ -15,6 +15,7 @@ function FormComponent() {
     e.preventDefault();
 
     try {
+      // comment this in if you want to just test without filling in inputs all the time
       // let res = await axios.post("/blocktrace",
       //   {},
       //   {
@@ -42,8 +43,6 @@ function FormComponent() {
         })
       console.log(res.data);
       if (res.status === 200) {
-        // setCryptoAddress("");
-        // setApiKey("");
         setTableData(res.data)
         setMessage("Data Retrieved!");
       }
@@ -80,57 +79,59 @@ function FormComponent() {
         <div className="message">{message ? <p>{message}</p> : null}</div>
       </form>
 
-      {tableData !== null && <div className="visualizeData"><table>
-        <tr>
-          <th>Address</th>
-          <th>Address Name</th>
-          <th>Address Type</th>
-          <th>Balance</th>
-          <th>Total Sent</th>
-          <th>Total Received</th>
-          <th>Risk Score</th>
-        </tr>
-        {tableData.map(({ summary: { address, name, type, balance, totalSentAmount, totalReceivedAmount, score } }, key) => {
-          return (
-            <tr key={key}>
-              <td>{address}</td>
-              <td>{name}</td>
-              <td>{type}</td>
-              <td>{balance}</td>
-              <td>{totalSentAmount}</td>
-              <td>{totalReceivedAmount}</td>
-              <td>{score}</td>
+      {tableData !== null &&
+        <div className="visualizeData">
+          <table>
+            <tr>
+              <th>Address</th>
+              <th>Address Name</th>
+              <th>Address Type</th>
+              <th>Balance</th>
+              <th>Total Sent</th>
+              <th>Total Received</th>
+              <th>Risk Score</th>
             </tr>
-          )
-        })}
-      </table>
-        <Chart
-          options={{
-            chart: {
-              id: "basic-bar"
-            },
-            xaxis: {
-              categories: tableData ?
-                (tableData.length >= 5
-                  ? tableData.sort((a, b) => b.summary.totalSentAmount - a.summary.totalSentAmount).slice(0, 5).map(function (item) { return item["summary"]["address"]; })
-                  : tableData.sort((a, b) => b.summary.totalSentAmount - a.summary.totalSentAmount).slice(0, tableData.length).map(function (item) { return item["summary"]["address"]; }))
-                : []
-            }
-          }}
-          series={[
-            {
-              name: "series-1",
-              data: tableData ?
-                (tableData.length >= 5
-                  ? tableData.sort((a, b) => b.summary.totalSentAmount - a.summary.totalSentAmount).slice(0, 5).map(function (item) { return item["summary"]["totalSentAmount"]; })
-                  : tableData.sort((a, b) => b.summary.totalSentAmount - a.summary.totalSentAmount).slice(0, tableData.length).map(function (item) { return item["summary"]["totalSentAmount"]; }))
-                : []
-            }
-          ]}
-          type="bar"
-          width="1000"
-        />
-      </div>
+            {tableData.map(({ summary: { address, name, type, balance, totalSentAmount, totalReceivedAmount, score } }, key) => {
+              return (
+                <tr key={key}>
+                  <td>{address}</td>
+                  <td>{name}</td>
+                  <td>{type}</td>
+                  <td>{balance}</td>
+                  <td>{totalSentAmount}</td>
+                  <td>{totalReceivedAmount}</td>
+                  <td>{score}</td>
+                </tr>
+              )
+            })}
+          </table>
+          <Chart
+            options={{
+              chart: {
+                id: "basic-bar"
+              },
+              xaxis: {
+                categories: tableData.summary ?
+                  (tableData.length >= 5
+                    ? tableData.sort((a, b) => b.summary.totalSentAmount - a.summary.totalSentAmount).slice(0, 5).map(function (item) { return item["summary"]["address"]; })
+                    : tableData.sort((a, b) => b.summary.totalSentAmount - a.summary.totalSentAmount).slice(0, tableData.length).map(function (item) { return item["summary"]["address"]; }))
+                  : []
+              }
+            }}
+            series={[
+              {
+                name: "series-1",
+                data: tableData.summary ?
+                  (tableData.length >= 5
+                    ? tableData.sort((a, b) => b.summary.totalSentAmount - a.summary.totalSentAmount).slice(0, 5).map(function (item) { return item["summary"]["totalSentAmount"]; })
+                    : tableData.sort((a, b) => b.summary.totalSentAmount - a.summary.totalSentAmount).slice(0, tableData.length).map(function (item) { return item["summary"]["totalSentAmount"]; }))
+                  : []
+              }
+            ]}
+            type="bar"
+            width="1000"
+          />
+        </div>
       }
     </div>
   );

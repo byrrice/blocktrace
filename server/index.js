@@ -40,33 +40,6 @@ app.post("/blocktrace", async (req, res) => {
   }
 });
 
-// app.post("/blocktrace", async (req, res) => {
-//   console.log(req.query)
-//   try {
-//     let data = await axios.post("https://fusion.blocktrace.com/api/v1/bulk/ca/cluster/summary/all",
-//       {
-//         addresses: [
-//           "36azMEqtTmt2m5PJb4QmWydL8kL1HPHs8d",
-//           "35EHWhDeYrYkMgq8e8wBBnXbEUVNaw5kys",
-//           "3NV7CWkxKmf997KfDKNxS9by8mV6bxh4sn"
-//         ]
-//       },
-//       {
-//         headers: {
-//           'api_key': 'BT-9484d2ac-2056-4c9b-aadd-828bb34a3317'
-//         },
-//         params: {
-//           type: 'btc'
-//         }
-//       })
-//     res.json(data.data);
-//   } catch (err) {
-//     console.log(err);
-//     res.statusCode(err.status)
-//   }
-// });
-
-
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
