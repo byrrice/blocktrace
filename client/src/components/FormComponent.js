@@ -36,7 +36,7 @@ function FormComponent() {
         {
           params: {
             type: cryptoAddressType,
-            addresses: cryptoAddress.split(/\s+/),
+            addresses: cryptoAddress.trim().split(/\s+/),
             apiKey: apiKey
           }
         })
@@ -110,7 +110,7 @@ function FormComponent() {
               id: "basic-bar"
             },
             xaxis: {
-              categories: tableData.length >= 5
+              categories: tableData.length >= 5 && tableData
                 ? tableData.sort((a, b) => b.summary.totalSentAmount - a.summary.totalSentAmount).slice(0, 5).map(function (item) { return item["summary"]["address"]; })
                 : tableData.sort((a, b) => b.summary.totalSentAmount - a.summary.totalSentAmount).slice(0, tableData.length).map(function (item) { return item["summary"]["address"]; })
             }
@@ -118,7 +118,7 @@ function FormComponent() {
           series={[
             {
               name: "series-1",
-              data: tableData.length >= 5
+              data: tableData.length >= 5 && tableData
                 ? tableData.sort((a, b) => b.summary.totalSentAmount - a.summary.totalSentAmount).slice(0, 5).map(function (item) { return item["summary"]["totalSentAmount"]; })
                 : tableData.sort((a, b) => b.summary.totalSentAmount - a.summary.totalSentAmount).slice(0, tableData.length).map(function (item) { return item["summary"]["totalSentAmount"]; })
             }
